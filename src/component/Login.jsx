@@ -1,12 +1,61 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import Header from "./Header";
+import { validateData } from "../utils/Validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/Firebase";
 
 const Login = () => {
-  const [isFromSignIn, setIsFromSignIn] = React.useState(true);
+  const [isFromSignIn, setIsFromSignIn] = useState(true);
+  const email = useRef(null);
+  const password = useRef(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSignIn = () => {
     setIsFromSignIn(!isFromSignIn);
-  }
+  };
+
+  const handleButtonClick = () => {
+    console.log("email:", email.current.value);
+    console.log("password:", password.current.value);
+    const message = validateData(email.current.value, password.current.value);
+    setErrorMessage(message);
+
+    if (message) return;
+    if (!isFromSignIn) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log("User signed up successfully:", user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+
+          setErrorMessage(`${errorCode}   ${errorMessage}`);
+        });
+    } else {
+      // Sign in logic
+      signInWithEmailAndPassword(auth,  email.current.value,
+        password.current.value)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("User signed in successfully:", user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(`${errorCode}   ${errorMessage}`);
+        });
+    }
+  };
 
   return (
     <div>
@@ -20,24 +69,35 @@ const Login = () => {
         onSubmit={(e) => e.preventDefault()}
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/80 p-12 rounded-lg w-3/12 text-white"
       >
-        <h1 className="text-3xl font-bold py-4 text-white"> {isFromSignIn ? "Sign In" : "Sign Up"}</h1>
-        {!isFromSignIn && <input
-          className="p-4 my-2 bg-gray-700 w-full rounded-lg"
-          type="text"
-          placeholder="Full name"
-        />}
+        <h1 className="text-3xl font-bold py-4 text-white">
+          {" "}
+          {isFromSignIn ? "Sign In" : "Sign Up"}
+        </h1>
+        {!isFromSignIn && (
+          <input
+            className="p-4 my-2 bg-gray-700 w-full rounded-lg"
+            type="text"
+            placeholder="Full name"
+          />
+        )}
         <input
+          ref={email}
           className="p-4 my-2 bg-gray-700 w-full rounded-lg"
           type="text"
           placeholder="Email or mobile number"
         />
         <input
+          ref={password}
           className="p-4 my-2  bg-gray-700 w-full rounded-lg"
           type="password"
           placeholder="Password"
         />
-        <button className="bg-red-600 p-4 my-4 rounded-lg hover:bg-red-700 w-full">
-         {isFromSignIn ? "Sign In" : "Sign Up"} 
+        <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
+        <button
+          className="bg-red-600 p-4 my-4 rounded-lg hover:bg-red-700 w-full"
+          onClick={handleButtonClick}
+        >
+          {isFromSignIn ? "Sign In" : "Sign Up"}
         </button>
         {isFromSignIn ? (
           <h4 className="text-gray-400 text-sm">
