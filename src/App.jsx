@@ -1,34 +1,16 @@
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './utils/Firebase';
-import { addUser, removeUser } from './utils/userSlice';
-import AppRouter from './routes/AppRouter';
-import { useNavigate } from 'react-router-dom';
+import useAuth from "./hooks/useAuth";
+import AppRouter from "./routes/AppRouter";
 
 function App() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const isAuthReady = useAuth();
 
-  useEffect(() => {
-  onAuthStateChanged(auth, (user) => {
-      if(user) {
-        dispatch(addUser({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-        }));
-        navigate('/browse');
-      } else {
-        dispatch(removeUser());
-        navigate('/');
-      }
-    });
-  }, []);
+  if (!isAuthReady) {
+    return <div className="text-center bg-black "/>
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
-        <AppRouter/>
+      <AppRouter />
     </div>
   );
 }
