@@ -1,5 +1,7 @@
-import Browse from "../component/Browse";
-import Login from "../component/Login";
+import { lazy } from "react";
+
+const Login = lazy(() => import("../component/Login"));
+const Browse = lazy(() => import("../component/Browse"));
 
 const routeConfig = [
   {
@@ -13,7 +15,5 @@ const routeConfig = [
     isProtected: true,
   },
 ];
-
-
 
 export default routeConfig;
