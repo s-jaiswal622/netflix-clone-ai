@@ -7,7 +7,10 @@ import { removeUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 import HeroBanner from "./HeroBanner";
-import MovieGrid from "./MovieGrid";
+import MovieContainer from "./MovieContainer";
+import usePopularMovies from "../hooks/usePopularMovies";
+import useUpcomingMovies from "../hooks/useUpcomingMovies";
+import useTopRatedMovies from "../hooks/useTopRatedMovies";
 
 const Browse = () => {
   const dispatch = useDispatch();
@@ -25,6 +28,9 @@ const Browse = () => {
   };
 
   useNowPlayingMovies();
+  usePopularMovies();
+  useTopRatedMovies();
+  useUpcomingMovies();
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -47,8 +53,7 @@ const Browse = () => {
       <div className="bg-black text-white min-h-screen">
         <HeroBanner />
         <div className="p-4">
-          <h1 className="text-2xl font-semibold mb-4">Now Playing</h1>
-          <MovieGrid />
+          <MovieContainer />
         </div>
       </div>
     </div>
