@@ -12,7 +12,6 @@ const useNowPlayingMovies = () => {
             throw new Error('Network response was not ok');
           }
           const data = await response.json();
-          console.log(data.results); // Handle the fetched data as needed
           dispatch(addNowPlayingMovies(data.results));
         } catch (error) {
           console.error('Fetch error:', error);
