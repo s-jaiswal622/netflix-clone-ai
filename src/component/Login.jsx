@@ -67,10 +67,9 @@ const Login = () => {
         alt="Background"
       />
       <Header />
-      <p className="font-bold red-500">
+      <p className=" absolute font-bold red-500 text-2xl text-center mt-4 items-center justify-center w-full">
       ⚠️ This is a personal project built for educational purposes only. Not affiliated with Netflix.
       </p>
-
       <form
         onSubmit={(e) => e.preventDefault()}
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/80 p-12 rounded-lg w-3/12 text-white"
