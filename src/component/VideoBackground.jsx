@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { API_OPTIONS } from "../utils/constant";
 
-const VideoBackground = ({ movieId }) => {
-    console.log("VideoBackground component rendered with movieId:", movieId);
+const VideoBackground = ({ movieId }) => {;
   const [trailerKey, setTrailerKey] = useState(null);
  
 
