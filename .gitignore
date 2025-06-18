@@ -16,6 +16,8 @@ dist-ssr
 
 # Local environment files
 *.local
+.env          # ← Add this
+.env.*        # ← Add this to ignore .env.development, .env.production, etc.
 
 # Firebase local cache (prevent committing deploy caches)
 .firebase/

@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "netflixgpt-defe4"
-  }
+    "default": "movie-stream-ai"
+  },
+  "targets": {},
+  "etags": {}
 }
