@@ -22,6 +22,9 @@ dist-ssr
 # Firebase local cache (prevent committing deploy caches)
 .firebase/
 
+# Firebase config file (currently hardcoded keys)
+src/utils/firebase.js
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
